@@ -5,7 +5,7 @@ export default class NumberSchema extends Schema {
     super(validators, checks, requiredValue, rootValidator);
     this.validators = {
       required: (data) => data !== null && typeof data === 'number',
-      positive: (data) => data > 0,
+      positive: (data) => data > 0 || data === null,
       range: (data, args) => {
         const [min, max] = args;
         return data >= min && data <= max;

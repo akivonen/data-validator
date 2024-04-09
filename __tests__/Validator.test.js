@@ -52,7 +52,6 @@ test('number', () => {
   schema.required();
   expect(schema.isValid(null)).toBeFalsy();
   expect(schema.isValid(5)).toBeTruthy();
-  expect(schema.isValid(5)).toBeTruthy();
 
   schema.range(-8, 8);
   expect(schema.isValid(-4)).toBeTruthy();
@@ -61,6 +60,13 @@ test('number', () => {
   expect(schema.positive().isValid(8)).toBeTruthy();
   expect(schema.isValid(-7)).toBeFalsy();
 });
+
+test('numberPositiveRequired', () => {
+  schema = v.number();
+  schema.positive();
+  expect(schema.isValid(null)).toBeTruthy();
+  expect(schema.required().isValid(0)).toBeFalsy();
+})
 
 test('array', () => {
   schema = v.array();
