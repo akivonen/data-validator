@@ -52,6 +52,7 @@ test('number', () => {
   schema.required();
   expect(schema.isValid(null)).toBeFalsy();
   expect(schema.isValid(5)).toBeTruthy();
+  expect(schema.isValid(5)).toBeTruthy();
 
   schema.range(-8, 8);
   expect(schema.isValid(-4)).toBeTruthy();
