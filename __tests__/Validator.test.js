@@ -3,6 +3,7 @@ import Validator from '../src/Validator.js';
 import StringSchema from '../src/schemas/StringSchema.js';
 import NumberSchema from '../src/schemas/NumberSchema.js';
 import ArraySchema from '../src/schemas/ArraySchema.js';
+import ObjectSchema from '../src/schemas/ObjectSchema.js';
 
 let validator;
 let schema;
@@ -75,4 +76,20 @@ test('array', () => {
   schema.sizeof(2);
   expect(schema.isValid(['test', 'string'])).toBeTruthy();
   expect(schema.isValid(['test'])).toBeFalsy();
+});
+test('object', () => {
+  schema = validator.object();
+  expect(schema).toBeInstanceOf(ObjectSchema);
+
+  schema.shape({
+    name: validator.string().required(),
+    age: validator.number().positive(),
+  });
+  expect(schema.isValid({})).toBeTruthy();
+  expect(schema.isValid('test')).toBeFalsy();
+  expect(schema.isValid(7)).toBeFalsy();
+  expect(schema.isValid({ name: 'kolya', age: 100 })).toBeTruthy();
+  expect(schema.isValid({ name: 'maya', age: null })).toBeTruthy();
+  expect(schema.isValid({ name: '', age: null })).toBeFalsy();
+  expect(schema.isValid({ name: 'ada', age: -5 })).toBeFalsy();
 });
