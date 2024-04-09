@@ -1,5 +1,6 @@
 export default class Schema {
-  constructor() {
+  constructor(rootValidator) {
+    this.rootValidator = rootValidator;
     this.validators = {};
     this.checks = [];
     this.requiredValue = false;
@@ -28,5 +29,15 @@ export default class Schema {
       }
     });
     return valid;
+  }
+
+  test(name, value = null) {
+    const schema = this.constructor.name.replace('Schema', '').toLowerCase();
+    const customValidator = this.rootValidator.customValidators[schema][name];
+    this.checks.push({
+      validate: customValidator,
+      args: value,
+    });
+    return this;
   }
 }

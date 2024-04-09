@@ -5,15 +5,15 @@ import NumberSchema from '../src/schemas/NumberSchema.js';
 import ArraySchema from '../src/schemas/ArraySchema.js';
 import ObjectSchema from '../src/schemas/ObjectSchema.js';
 
-let validator;
+let v;
 let schema;
 
 beforeEach(() => {
-  validator = new Validator();
+  v = new Validator();
 });
 
 test('string', () => {
-  schema = validator.string();
+  schema = v.string();
 
   expect(schema).toBeInstanceOf(StringSchema);
   expect(schema.isValid('test')).toBeTruthy();
@@ -45,7 +45,7 @@ test('string', () => {
 });
 
 test('number', () => {
-  schema = validator.number();
+  schema = v.number();
   expect(schema).toBeInstanceOf(NumberSchema);
   expect(schema.isValid(null)).toBeTruthy();
 
@@ -62,7 +62,7 @@ test('number', () => {
 });
 
 test('array', () => {
-  schema = validator.array();
+  schema = v.array();
   expect(schema).toBeInstanceOf(ArraySchema);
   expect(schema.isValid(null)).toBeTruthy();
 
@@ -77,13 +77,14 @@ test('array', () => {
   expect(schema.isValid(['test', 'string'])).toBeTruthy();
   expect(schema.isValid(['test'])).toBeFalsy();
 });
+
 test('object', () => {
-  schema = validator.object();
+  schema = v.object();
   expect(schema).toBeInstanceOf(ObjectSchema);
 
   schema.shape({
-    name: validator.string().required(),
-    age: validator.number().positive(),
+    name: v.string().required(),
+    age: v.number().positive(),
   });
   expect(schema.isValid({})).toBeTruthy();
   expect(schema.isValid('test')).toBeFalsy();
@@ -92,4 +93,20 @@ test('object', () => {
   expect(schema.isValid({ name: 'maya', age: null })).toBeTruthy();
   expect(schema.isValid({ name: '', age: null })).toBeFalsy();
   expect(schema.isValid({ name: 'ada', age: -5 })).toBeFalsy();
+});
+
+test('customValidator', () => {
+  const stringfn = (value, start) => value.startsWith(start);
+  v.addValidator('string', 'startWith', stringfn);
+
+  schema = v.string().test('startWith', 't');
+  expect(schema.isValid('hello')).toBeFalsy();
+  expect(schema.isValid('test')).toBeTruthy();
+
+  const numberFn = (value, min) => value >= min;
+  v.addValidator('number', 'min', numberFn);
+
+  schema = v.number().test('min', 7);
+  expect(schema.isValid(8)).toBeTruthy();
+  expect(schema.isValid(5)).toBeFalsy();
 });

@@ -11,26 +11,19 @@ export default class Validator {
       Array: ArraySchema,
       Object: ObjectSchema,
     };
-    this.schema = null;
+    this.customValidators = {};
   }
 
-  string() {
-    this.schema = new this.schemas.String();
-    return this.schema;
-  }
+  string = () => new this.schemas.String(this);
 
-  number() {
-    this.schema = new this.schemas.Number();
-    return this.schema;
-  }
+  number = () => new this.schemas.Number(this);
 
-  array() {
-    this.schema = new this.schemas.Array();
-    return this.schema;
-  }
+  array = () => new this.schemas.Array(this);
 
-  object() {
-    this.schema = new this.schemas.Object();
-    return this.schema;
+  object = () => new this.schemas.Object(this);
+
+  addValidator(schema, name, fn) {
+    const newCustomValidator = { [name]: fn };
+    this.customValidators[schema] = newCustomValidator;
   }
 }

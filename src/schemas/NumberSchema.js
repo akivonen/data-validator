@@ -1,8 +1,8 @@
 import Schema from './Schema.js';
 
 export default class NumberSchema extends Schema {
-  constructor(validators, checks, requiredValue) {
-    super(validators, checks, requiredValue);
+  constructor(validators, checks, requiredValue, rootValidator) {
+    super(validators, checks, requiredValue, rootValidator);
     this.validators = {
       required: (data) => data !== null && typeof data === 'number',
       positive: (data) => data >= 0,

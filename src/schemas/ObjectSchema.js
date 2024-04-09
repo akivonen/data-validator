@@ -1,5 +1,6 @@
 export default class ObjectSchema {
-  constructor() {
+  constructor(rootValidator) {
+    this.rootValidator = rootValidator;
     this.fieldsRules = {};
   }
 
