@@ -2,6 +2,7 @@ import { test, expect, beforeEach } from '@jest/globals';
 import Validator from '../src/Validator.js';
 import StringSchema from '../src/schemas/StringSchema.js';
 import NumberSchema from '../src/schemas/NumberSchema.js';
+import ArraySchema from '../src/schemas/ArraySchema.js';
 
 let validator;
 let schema;
@@ -57,4 +58,21 @@ test('number', () => {
 
   expect(schema.positive().isValid(8)).toBeTruthy();
   expect(schema.isValid(-7)).toBeFalsy();
+});
+
+test('array', () => {
+  schema = validator.array();
+  expect(schema).toBeInstanceOf(ArraySchema);
+  expect(schema.isValid(null)).toBeTruthy();
+
+  schema.required();
+  expect(schema.isValid(null)).toBeFalsy();
+  expect(schema.isValid('test')).toBeFalsy();
+  expect(schema.isValid([])).toBeTruthy();
+  expect(schema.isValid(['test'])).toBeTruthy();
+  expect(schema.isValid(7)).toBeFalsy();
+
+  schema.sizeof(2);
+  expect(schema.isValid(['test', 'string'])).toBeTruthy();
+  expect(schema.isValid(['test'])).toBeFalsy();
 });
