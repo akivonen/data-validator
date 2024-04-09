@@ -1,18 +1,19 @@
 import { test, expect, beforeEach } from '@jest/globals';
 import Validator from '../src/Validator.js';
 import StringSchema from '../src/schemas/StringSchema.js';
+import NumberSchema from '../src/schemas/NumberSchema.js';
 
 let validator;
 let schema;
 
 beforeEach(() => {
   validator = new Validator();
-  schema = validator.string();
 });
-test('stringSchema', () => {
-  expect(schema).toBeInstanceOf(StringSchema);
-});
+
 test('string', () => {
+  schema = validator.string();
+
+  expect(schema).toBeInstanceOf(StringSchema);
   expect(schema.isValid('test')).toBeTruthy();
   expect(schema.isValid(null)).toBeTruthy();
   expect(schema.isValid(undefined)).toBeTruthy();
@@ -39,4 +40,21 @@ test('string', () => {
     .minLength(3)
     .minLength(6);
   expect(schema.isValid('hexlet')).toBeTruthy();
+});
+
+test('number', () => {
+  schema = validator.number();
+  expect(schema).toBeInstanceOf(NumberSchema);
+  expect(schema.isValid(null)).toBeTruthy();
+
+  schema.required();
+  expect(schema.isValid(null)).toBeFalsy();
+  expect(schema.isValid(5)).toBeTruthy();
+
+  schema.range(-8, 8);
+  expect(schema.isValid(-4)).toBeTruthy();
+  expect(schema.isValid(5)).toBeTruthy();
+
+  expect(schema.positive().isValid(8)).toBeTruthy();
+  expect(schema.isValid(-7)).toBeFalsy();
 });
