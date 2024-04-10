@@ -66,7 +66,7 @@ test('numberPositiveRequired', () => {
   schema.positive();
   expect(schema.isValid(null)).toBeTruthy();
   expect(schema.required().isValid(0)).toBeFalsy();
-})
+});
 
 test('array', () => {
   schema = v.array();
@@ -94,8 +94,12 @@ test('object', () => {
     age: v.number().positive(),
   });
   expect(schema.isValid({})).toBeTruthy();
+  expect(schema.isValid([])).toBeFalsy();
   expect(schema.isValid('test')).toBeFalsy();
   expect(schema.isValid(7)).toBeFalsy();
+  expect(schema.isValid(null)).toBeFalsy();
+  expect(schema.isValid(undefined)).toBeFalsy();
+  expect(schema.isValid(false)).toBeFalsy();
   expect(schema.isValid({ name: 'kolya', age: 100 })).toBeTruthy();
   expect(schema.isValid({ name: 'maya', age: null })).toBeTruthy();
   expect(schema.isValid({ name: '', age: null })).toBeFalsy();

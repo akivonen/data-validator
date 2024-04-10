@@ -10,7 +10,9 @@ export default class ObjectSchema {
   }
 
   isValid(data) {
-    if (typeof data !== 'object') {
+    if (typeof data !== 'object'
+      || !data
+      || Array.isArray(data)) {
       return false;
     }
     let valid = true;
