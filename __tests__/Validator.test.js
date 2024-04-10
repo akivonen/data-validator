@@ -88,6 +88,8 @@ test('array', () => {
 test('object', () => {
   schema = v.object();
   expect(schema).toBeInstanceOf(ObjectSchema);
+  expect(schema.isValid(null)).toBeTruthy();
+  expect(schema.isValid({})).toBeTruthy();
 
   schema.shape({
     name: v.string().required(),
