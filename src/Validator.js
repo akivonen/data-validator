@@ -14,13 +14,21 @@ export default class Validator {
     this.customValidators = {};
   }
 
-  string = () => new this.schemas.String(this);
+  string() {
+    return new this.schemas.String(this);
+  }
 
-  number = () => new this.schemas.Number(this);
+  number() {
+    return new this.schemas.Number(this);
+  }
 
-  array = () => new this.schemas.Array(this);
+  array() {
+    return new this.schemas.Array(this);
+  }
 
-  object = () => new this.schemas.Object(this);
+  object() {
+    return new this.schemas.Object(this);
+  }
 
   addValidator(schema, name, fn) {
     if (typeof fn !== 'function') {

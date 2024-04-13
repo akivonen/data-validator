@@ -27,11 +27,11 @@ export default class ObjectSchema {
         if (!this.inputValidRules[this.state](data)) {
           return false;
         }
-        for (const [field, value] of Object.entries(data)) {
+        Object.entries(data).forEach(([field, value]) => {
           if (!this.fieldsRules[field].isValid(value)) {
             valid = false;
           }
-        }
+        });
         return valid;
       default:
         console.log(`Error, unknown state ${this.state}`);
