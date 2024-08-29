@@ -1,5 +1,6 @@
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/akivonen/js-oop-project-62/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/akivonen/js-oop-project-62/actions)
+### Data validator
 ### Goal
 In the Data Validator project I`ve used experience learned in OOP courses: class structure design, object composition, possibly inheritance, and definitely a fluent interface.
 ### Description
